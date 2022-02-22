@@ -2,6 +2,7 @@ import gym
 import exercise1.car_maze as cm
 import random as rnd
 import time
+import maze_resolver
 
 env = cm.CarMazeEnv("open")
 
@@ -26,33 +27,48 @@ env = cm.CarMazeEnv("open")
 # You code starts here
 #####################################
 
+# print("0 - up")
+# print("1 - down")
+# print("2 - left")
+# print("3 - right")
+
 for i_episode in range(10):
     observation = env.reset()
+
+    env.render()
+    path = maze_resolver.maze_resolve(observation)
+    #path.reverse()
+
     for t in range(200000):
         env.render()
 
-        # # --------------------------------------------
-        # # example code
-        # # --------------------------------------------
-        # #action = env.action_space.sample()
-        # time.sleep(0.3)
-        # avalableActions = [x[0] for x in enumerate(observation) if x[1] == 1]
-        # action = avalableActions[rnd.randint(0, len(avalableActions)-1)]
-        #
-        # observation, reward, done, info = env.step(action)
-        # print(observation[6])
-        #
-        # if done:
-        #     print("Episode finished after {} timesteps".format(t+1))
-        #     print("Reward - " + reward)
-        #     break
-        # # --------------------------------------------
-        # # end of example code
-        # # --------------------------------------------
+        # --------------------------------------------
+        # simzim code
+        # --------------------------------------------
 
-#####################################
-# You code ends here
-#####################################
+        time.sleep(0.2)
+        step = path.pop()
+        x_axis = observation[4].split('-')[0]
+        y_axis = observation[4].split('-')[1]
+        x = step.partition("-")[0]
+        y = step.partition("-")[2]
+        if int(x) > int(x_axis):
+            action = 3
+        elif int(x) < int(x_axis):
+            action = 2
+        elif int(y) > int(y_axis):
+            action = 0
+        elif int(y) < int(y_axis):
+            action = 1
 
+        # --------------------------------------------
+        # end of simzim code
+        # --------------------------------------------
+        observation, reward, done, info = env.step(action)
+
+        if done:
+            print("Episode finished after {} timesteps".format(t+1))
+            print("Reward - " + reward)
+            break
 
 env.close()
