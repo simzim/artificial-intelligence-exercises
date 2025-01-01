@@ -1,5 +1,5 @@
 # artificial-intelligence-exercises
-### Exercises for course of Artificial Intelligence at Klaipeda University
+### Exercises for course of Artificial Intelligence
 
 #### The task is to write a program for the car to find the gold in the maze.
 - ##### First option 
